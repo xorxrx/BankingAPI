@@ -2,13 +2,16 @@ package ru.xorxrx.bankingapi.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.print.attribute.standard.MediaSize;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "transactions")
 public class Transaction {
 
@@ -17,25 +20,35 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "amount",nullable = false)
+    @Positive
+    @Column(name = "amount",nullable = false,precision = 19,scale = 2)
     private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type",nullable = false)
+    @Column(name = "type",nullable = false,length = 20)
     private TransactionType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status",nullable = false)
+    @Column(name = "status",nullable = false,length = 20)
     private TransactionStatus status;
 
-    @Column(name = "createdAt",nullable = false)
+    @Column(name = "createdAt",nullable = false,updatable = false)
     private Instant createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "senderAccountId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_account_id")
     private Account senderAccount;
 
-    @ManyToOne
-    @JoinColumn(name = "receiverAccountId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver_account_id")
     private Account receiverAccount;
+
+    public Transaction() {}
+
+    @PrePersist
+    void onCreate() {
+        if (createdAt == null) createdAt = Instant.now();
+        if (status == null) status = TransactionStatus.PROCESSED;
+    }
 }
+

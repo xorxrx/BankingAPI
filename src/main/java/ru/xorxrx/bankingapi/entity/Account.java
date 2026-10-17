@@ -2,34 +2,43 @@ package ru.xorxrx.bankingapi.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Accounts")
+@Table(name = "accounts")
+@Getter
+@Setter
 public class Account {
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "accountNumber", nullable = false)
-    private Long accountNumber;
+    @Column(name = "account_number", nullable = false,unique = true,length = 20)
+    private String accountNumber;
 
-    @Column(name = "balance", nullable = false)
-    private BigDecimal balance;
+    @Column(name = "balance", nullable = false,precision = 19,scale = 2)
+    private BigDecimal balance =  BigDecimal.ZERO;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "currency", nullable = false)
+    @Column(name = "currency", nullable = false,length = 3)
     private Currency currency;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private AccountStatus status;
+    private AccountStatus status = AccountStatus.ACTIVE;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
+
+    @OneToMany(mappedBy = "account")
+    private List<Card> cards = new ArrayList<>();
+
+    public Account() {}
 }

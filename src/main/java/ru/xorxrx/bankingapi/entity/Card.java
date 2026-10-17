@@ -1,31 +1,37 @@
 package ru.xorxrx.bankingapi.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.Instant;
+
+import java.time.YearMonth;
 
 @Entity
 @Table(name = "cards")
+@Getter
+@Setter
 public class Card {
 
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "cardNumber", nullable = false)
-    private int cardNumber;
+    @Column(name = "card_number", nullable = false,unique = true,length = 16)
+    private String cardNumber;
 
-    @Column(name = "expirationDate",nullable = false)
-    private Instant expirationDate;
+    @Column(name = "expiration_date",nullable = false)
+    private YearMonth expirationDate;
 
-    @Column(name = "status",nullable = false)
-    private CardStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status",nullable = false,length = 20)
+    private CardStatus status = CardStatus.ACTIVE;
 
-    @Column(name = "account",nullable = false)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Card card;
+    public Card() {}
 }
