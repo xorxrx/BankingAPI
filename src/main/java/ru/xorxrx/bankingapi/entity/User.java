@@ -30,6 +30,12 @@ public class User {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
+    public User(String fullName, String passwordHash, String email) {
+        this.fullName = fullName;
+        this.passwordHash = passwordHash;
+        this.email = email;
+    }
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole role = UserRole.USER;

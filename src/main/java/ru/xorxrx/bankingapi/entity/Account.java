@@ -50,6 +50,11 @@ public class Account {
 
     public Account() {}
 
+    public Account(Currency currency, User owner) {
+        this.currency = currency;
+        this.owner = owner;
+    }
+
     @PrePersist
     void onCreate() {
         if (createdAt == null) createdAt = Instant.now();
