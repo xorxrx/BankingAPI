@@ -39,9 +39,15 @@ public class Transaction {
     @JoinColumn(name = "sender_account_id")
     private Account senderAccount;
 
+    @Column(name = "sender_account_id", insertable = false, updatable = false)
+    private Long senderAccountId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "receiver_account_id")
     private Account receiverAccount;
+
+    @Column(name = "receiver_account_id", insertable = false, updatable = false)
+    private Long receiverAccountId;
 
     public Transaction() {}
 

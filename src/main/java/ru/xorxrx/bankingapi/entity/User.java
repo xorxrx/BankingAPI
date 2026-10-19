@@ -20,8 +20,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = true, length = 50)
-    private String username;
+    @Column(nullable = false, unique = true, length = 50)
+    private String fullName;
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
@@ -31,7 +31,7 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", nullable = false)
+    @Column(nullable = false)
     private UserRole role = UserRole.USER;
 
     @Column(name = "created_at", nullable = false, updatable = false)

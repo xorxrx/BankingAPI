@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +38,21 @@ public class Account {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long ownerId;
+
     @OneToMany(mappedBy = "account")
     private List<Card> cards = new ArrayList<>();
 
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
     public Account() {}
+
+    @PrePersist
+    void onCreate() {
+        if (createdAt == null) createdAt = Instant.now();
+        if (status == null) status = AccountStatus.ACTIVE;
+    }
 }
