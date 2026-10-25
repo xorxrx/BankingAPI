@@ -9,8 +9,8 @@ public record UserResponse(
         Long id,
         String fullName,
         String email,
-        UserRole Role,
-        Instant createdAt
+        UserRole role,
+        Instant created_at
 ) {
 
 
