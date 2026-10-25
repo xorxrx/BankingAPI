@@ -14,7 +14,7 @@ public record AccountResponse(
         Currency currency,
         AccountStatus status,
         Long userId,
-        Instant createdAt
+        Instant created_at
 
 ) {
 
