@@ -32,8 +32,8 @@ public class Transaction {
     @Column(name = "status",nullable = false,length = 20)
     private TransactionStatus status;
 
-    @Column(name = "createdAt",nullable = false,updatable = false)
-    private Instant createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant created_at;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sender_account_id")
@@ -46,15 +46,12 @@ public class Transaction {
     @JoinColumn(name = "receiver_account_id")
     private Account receiverAccount;
 
-    @Column(name = "receiver_account_id", insertable = false, updatable = false)
-    private Long receiverAccountId;
-
     public Transaction() {}
 
     @PrePersist
     void onCreate() {
-        if (createdAt == null) createdAt = Instant.now();
-        if (status == null) status = TransactionStatus.PROCESSED;
+        if (created_at == null) created_at = Instant.now();
+        if (status == null) status = TransactionStatus.PENDING;
     }
 }
 

@@ -38,10 +38,6 @@ public class Account {
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;
 
-
-    @Column(name = "user_id", insertable = false, updatable = false)
-    private Long ownerId;
-
     @OneToMany(mappedBy = "account")
     private List<Card> cards = new ArrayList<>();
 

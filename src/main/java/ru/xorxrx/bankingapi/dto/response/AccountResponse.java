@@ -25,7 +25,7 @@ public record AccountResponse(
                 account.getBalance(),
                 account.getCurrency(),
                 account.getStatus(),
-                account.getOwnerId(),
+                account.getOwner().getId(),
                 account.getCreatedAt()
         );
     }

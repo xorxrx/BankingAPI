@@ -12,19 +12,19 @@ public record TransferResponse(
         BigDecimal amount,
         TransactionType type,
         TransactionStatus status,
-        Instant createdAt,
+        Instant created_at,
         Long senderAccountId,
         Long receiverAccountId
 ) {
-    public static TransferResponse from(Transaction transaction) {
+    public static TransferResponse from(Transaction t) {
         return new TransferResponse(
-                transaction.getId(),
-                transaction.getAmount(),
-                transaction.getType(),
-                transaction.getStatus(),
-                transaction.getCreatedAt(),
-                transaction.getSenderAccountId(),
-                transaction.getReceiverAccountId()
+                t.getId(),
+                t.getAmount(),
+                t.getType(),
+                t.getStatus(),
+                t.getCreated_at(),
+                t.getSenderAccount() != null ? t.getSenderAccount().getId() : null,
+                t.getReceiverAccount() != null ? t.getReceiverAccount().getId() : null
         );
     }
 }

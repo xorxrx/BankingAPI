@@ -33,8 +33,5 @@ public class Card {
     @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
-    @Column(name = "account_id", insertable = false, updatable = false)
-    private Long accountId;
-
     public Card() {}
 }
